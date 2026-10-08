@@ -10,10 +10,13 @@ const https = require('https');
 const localtunnel = require('localtunnel');
 const { dbRun, dbGet, dbAll, initDatabase } = require('./database');
 
+const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
 const app = express();
 const PORT = process.env.PORT || 8000;
 const JWT_SECRET = process.env.JWT_SECRET || 'ask_classes_secure_jwt_secret_key_2026';
-const TUNNEL_FILE = path.join(__dirname, 'active_tunnel.json');
+const TUNNEL_FILE = isServerless 
+  ? path.join(os.tmpdir(), 'active_tunnel.json') 
+  : path.join(__dirname, 'active_tunnel.json');
 let activeTunnel = null;
 let publicIPCache = '';
 
@@ -52,6 +55,7 @@ function fetchPublicIP() {
 }
 
 async function initGlobalTunnel(port) {
+  if (isServerless) return null;
   try {
     if (activeTunnel) {
       try { activeTunnel.close(); } catch (e) {}
@@ -71,7 +75,9 @@ async function initGlobalTunnel(port) {
       port: port,
       startedAt: new Date().toISOString()
     };
-    fs.writeFileSync(TUNNEL_FILE, JSON.stringify(tunnelInfo, null, 2));
+    try {
+      fs.writeFileSync(TUNNEL_FILE, JSON.stringify(tunnelInfo, null, 2));
+    } catch (e) {}
 
     tunnel.on('close', () => {
       console.log('⚠️ Global Tunnel was closed.');
@@ -95,10 +101,43 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Database ready gate for serverless & local
+let dbInitialized = false;
+let initPromise = null;
+
+async function ensureDatabaseReady() {
+  if (dbInitialized) return;
+  if (!initPromise) {
+    initPromise = (async () => {
+      try {
+        await initDatabase();
+        await seedDefaultData();
+        dbInitialized = true;
+      } catch (err) {
+        console.error('Database initialization warning:', err.message);
+      }
+    })();
+  }
+  return initPromise;
+}
+
+app.use(async (req, res, next) => {
+  if (!dbInitialized) {
+    await ensureDatabaseReady();
+  }
+  next();
+});
+
 // Storage for File Uploads
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+const uploadsDir = isServerless 
+  ? path.join(os.tmpdir(), 'uploads') 
+  : path.join(__dirname, 'uploads');
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch (e) {
+  console.warn('Uploads directory notice:', e.message);
 }
 
 const storage = multer.diskStorage({
@@ -850,15 +889,17 @@ app.post('/api/tunnel/stop', async (req, res) => {
   }
 });
 
-// Fallback to index.html
+// Fallback for non-API routes (when running standalone)
 app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ success: false, message: 'API endpoint not found' });
+  }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start Server and Initialize DB
 async function startServer() {
-  await initDatabase();
-  await seedDefaultData();
+  await ensureDatabaseReady();
   const localIP = getLocalIP();
 
   app.listen(PORT, '0.0.0.0', async () => {
@@ -884,4 +925,9 @@ async function startServer() {
   });
 }
 
-startServer();
+// Only start standalone HTTP listener when executed directly (not inside serverless handler)
+if (!isServerless && require.main === module) {
+  startServer();
+}
+
+module.exports = app;
