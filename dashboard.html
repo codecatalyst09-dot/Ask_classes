@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard | Ask Classes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo-link">
+        <img src="assets/images/ask_logo_circular.png" alt="Ask Classes Logo" class="logo-image">
+        <div class="logo-text">
+          <span class="logo-name">Ask Classes</span>
+          <span class="logo-tagline">Raising Excellence</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html">Ask Classes</a></li>
+          <li class="nav-item"><a href="#" onclick="switchTab(3)">Session Join</a></li>
+          <li class="nav-item"><a href="#" onclick="switchTab(4)">Support</a></li>
+          <li class="nav-item"><a href="#" onclick="handleSignOut(event)">Signout</a></li>
+          <li>
+            <button class="btn-nav-action btn-dashboard" onclick="window.location.reload()">Dashboard</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Blue Profile Banner -->
+  <section class="dashboard-banner">
+    <!-- Controls top right -->
+    <div class="banner-controls">
+      <button class="btn-control-icon" title="Edit Profile" onclick="alert('Profile edit coming soon!')">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+        </svg>
+      </button>
+      <button class="btn-control-icon" title="Settings" onclick="alert('Account settings coming soon!')">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="dashboard-banner-container">
+      <div class="student-profile">
+        <div class="student-avatar-container">
+          <svg class="student-avatar-svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="student-details">
+          <h1 id="student-display-name">Student Dashboard</h1>
+        </div>
+      </div>
+
+      <div class="student-stats">
+        <!-- Course Progress Stat Card -->
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Course</h4>
+            <div id="stat-course-value" style="font-size: 20px; font-weight:700; color: var(--primary-blue); margin-top:8px;">—</div>
+          </div>
+          <svg class="stat-icon" fill="currentColor" viewBox="0 0 24 24" style="color: #cbd5e1; width: 44px; height: 44px;">
+            <path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.73-.47 8.5-4.25 8.97-8.99h-8.97z"/>
+          </svg>
+        </div>
+
+        <!-- Live Class Progress Stat Card -->
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Live Class</h4>
+            <div id="stat-live-value" style="font-size: 20px; font-weight:700; color: var(--primary-blue); margin-top:8px;">—</div>
+          </div>
+          <svg class="stat-icon" fill="currentColor" viewBox="0 0 24 24" style="color: #cbd5e1; width: 44px; height: 44px;">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H7v-5h3v5zm4 0h-3v-9h3v9zm4 0h-3v-7h3v7z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification Banner -->
+  <section class="notification-banner">
+    <div class="notification-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        🌐 <strong>Worldwide Live Session Access:</strong> You are connected to Ask Classes Online. You can join all live class sessions from any phone (4G/5G), tablet, or laptop from any location.
+      </div>
+      <div style="font-size: 12px; font-weight: 600; color: #0284c7;">
+        Status: <span style="color: #10b981;">● Connected</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Info & Educational Quote Section -->
+  <section style="max-width: 1200px; margin: 20px auto 10px auto; padding: 0 20px;">
+    <div class="platform-info-card">
+      <h3 class="platform-info-title">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align: middle;">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+        </svg>
+        Ask Classes Platform Info
+      </h3>
+      <p style="font-size: 14px; color: #0c4a6e; line-height: 1.5;">
+        Ask Classes is a premium hybrid educational platform. Our batches are fully flexible and designed for comprehensive excellence. 
+        We offer regular interactive <strong>Online Live Classes</strong>, study materials, and worksheets, alongside <strong>Offline Classroom Batches</strong> 
+        at our physical centers. Choose the learning mode that fits you best!
+      </p>
+    </div>
+    
+    <div class="quote-banner-card">
+      <div class="quote-banner-icon">🎓</div>
+      <div>
+        <div class="quote-banner-text">"Education is the most powerful weapon which you can use to change the world."</div>
+        <div style="font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 4px;">— Nelson Mandela</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs Navigation Header -->
+  <nav class="tabs-navigation">
+    <ul class="tabs-container">
+      <li class="tab-btn active" onclick="switchTab(0)">Today's Session</li>
+      <li class="tab-btn" onclick="switchTab(1)">My Courses & Assignments</li>
+      <li class="tab-btn" onclick="switchTab(2)">My Live Classes</li>
+      <li class="tab-btn" onclick="switchTab(3)">Upcoming Schedule</li>
+      <li class="tab-btn" onclick="switchTab(4)">Course Materials</li>
+      <li class="tab-btn" onclick="switchTab(5)">Refer & Earn <span class="tab-badge">New</span></li>
+      <li class="tab-btn" onclick="switchTab(6)">FAQ's</li>
+    </ul>
+  </nav>
+
+  <!-- Tab Content Sections -->
+  <main class="tab-content-section">
+    
+    <!-- TODAY'S SESSION TAB -->
+    <section class="tab-panel active" id="panel-0">
+      <div class="dashboard-grid">
+        <div>
+          <div class="panel-card">
+            <h2 class="panel-card-title">Active Live Sessions</h2>
+            <div class="session-list">
+              <!-- Populated dynamically from admin-scheduled classes -->
+            </div>
+          </div>
+          <div class="panel-card" id="student-homework-card">
+            <!-- Populated dynamically — only shows admin-published assignments -->
+          </div>
+        </div>
+        <div>
+          <div class="panel-card">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">Dashboard Notices</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+              <li>🔔 Monthly Board Mock Exam registration is open.</li>
+              <li>📅 Upcoming holiday notice for Independence Day.</li>
+              <li>💡 Assignments and study notes appear here once uploaded by admin.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MY COURSES & ASSIGNMENTS TAB -->
+    <section class="tab-panel" id="panel-1">
+      <div class="panel-card">
+        <h2 class="panel-card-title">Enrolled Programs</h2>
+        <div class="courses-list">
+          <!-- Populated dynamically from admin course data -->
+        </div>
+      </div>
+    </section>
+
+    <!-- MY LIVE CLASSES TAB -->
+    <section class="tab-panel" id="panel-2">
+      <div class="panel-card">
+        <h2 class="panel-card-title">Live Class Feed</h2>
+        <div class="session-list">
+          <!-- Populated dynamically from admin-scheduled classes -->
+        </div>
+      </div>
+    </section>
+
+    <!-- UPCOMING SCHEDULE TAB -->
+    <section class="tab-panel" id="panel-3">
+      <div class="panel-card">
+        <h2 class="panel-card-title">Weekly Schedule Calendar</h2>
+        <div class="schedule-list">
+          <!-- Populated dynamically from admin-scheduled classes -->
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSE MATERIALS TAB -->
+    <section class="tab-panel" id="panel-4">
+      <div class="panel-card">
+        <h2 class="panel-card-title">NCERT PDFs & Custom Study Notes</h2>
+        <div id="student-materials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          <!-- Populated dynamically — only shows admin-uploaded materials -->
+        </div>
+      </div>
+    </section>
+
+    <!-- REFER & EARN TAB -->
+    <section class="tab-panel" id="panel-5">
+      <div class="panel-card">
+        <div class="refer-container">
+          <div class="refer-text">
+            <h2>Refer Ask Classes to Friends!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 14px;">
+              Share your referral code with friends and classmates. Once they enroll, both of you will receive <strong>1 Month of Free Premium Live Classes</strong> and scholarship coupons!
+            </p>
+            <div class="refer-code-box">
+              <input type="text" value="ASK-ANUSHKA-10" readonly id="referCode">
+              <button class="btn-copy-code" onclick="copyReferralCode()">Copy Code</button>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="color: #ff9800; width: 140px; height: 140px; margin: 0 auto;">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ'S TAB -->
+    <section class="tab-panel" id="panel-6">
+      <div class="panel-card">
+        <h2 class="panel-card-title">Frequently Asked Questions</h2>
+        <div class="faq-accordion">
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>How do I join the live online class sessions?</span>
+              <span class="faq-arrow">&#9662;</span>
+            </div>
+            <div class="faq-answer">
+              <p>You can join the live online sessions directly from the "Today's Session" tab by clicking on the active "Join Class" button. Classes usually activate 10 minutes prior to their start time.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Can I access recordings of missed live classes?</span>
+              <span class="faq-arrow">&#9662;</span>
+            </div>
+            <div class="faq-answer">
+              <p>Yes, all live class recordings are archived and made available within 2 hours under the "My Live Classes" or "Course Materials" sections for self-study and revision.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>How can I submit my assignments?</span>
+              <span class="faq-arrow">&#9662;</span>
+            </div>
+            <div class="faq-answer">
+              <p>Assignments can be uploaded through the "My Courses & Assignments" page under each specific course card. Select "Upload Work", choose your file (PDF or Image), and click submit.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span>Who should I contact if I face tech issues during a class?</span>
+              <span class="faq-arrow">&#9662;</span>
+            </div>
+            <div class="faq-answer">
+              <p>For immediate tech support, use the floating chat widget on the bottom right of the screen. Our technical team is online during live sessions to assist you immediately.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <p>&copy; 2026 Ask Classes. All Rights Reserved. Powered by Ask Classes eLearning Academy.</p>
+      </div>
+      <div>
+        <a href="index.html" style="margin-right: 15px; opacity: 0.8;">Privacy Policy</a>
+        <a href="index.html" style="opacity: 0.8;">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-bubble" id="chatBubble">
+      <h4>We're Online!</h4>
+      <p>How may I help you today?</p>
+    </div>
+    <button class="btn-chat-toggle" onclick="toggleChatPanel()">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Chat Widget Detail Panel -->
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-panel-header">
+      <h3>Ask Classes Live Chat</h3>
+      <button class="chat-panel-close" onclick="toggleChatPanel()">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg incoming">
+        Welcome back, Anushka! Let us know if you need help with your Class 10th lessons or live links.
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Write a message..." onkeydown="if(event.key === 'Enter') sendChatMessage()">
+      <button onclick="sendChatMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Vertical "Request Course" side tab -->
+  <div class="side-tab-request" onclick="openRequestCourse()">
+    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="transform: rotate(90deg);">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z"/>
+    </svg>
+    Request Course
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
