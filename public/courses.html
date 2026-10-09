@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ask Classes - Popular Course Categories. Explore programs for Class 10 and Class 9.">
+  <title>Courses | Ask Classes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Worldwide Access Notification Banner -->
+  <div style="background: linear-gradient(90deg, #1e3a8a, #0284c7); color: #ffffff; padding: 8px 20px; font-size: 13px; font-weight: 500; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+    <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">🌐 Global Online Access</span>
+    <span>Join Live Sessions from ANYWHERE: Works on 4G/5G mobile, home Wi-Fi & any device worldwide!</span>
+  </div>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo-link">
+        <img src="assets/images/ask_logo_circular.png" alt="Ask Classes Logo" class="logo-image">
+        <div class="logo-text">
+          <span class="logo-name">Ask Classes</span>
+          <span class="logo-tagline">Raising Excellence</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html">Ask Classes</a></li>
+          <li class="nav-item"><a href="courses.html">Courses</a></li>
+          <li class="nav-item"><a href="#support" onclick="alert('Support is available via chat widget in bottom right!')">Support</a></li>
+          <li class="nav-item"><a href="index.html?tab=login">Sign In</a></li>
+          <li>
+            <button class="btn-nav-action btn-register" onclick="handleRegisterClick('index.html?tab=register')">Register</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Popular Course Categories Section -->
+  <section class="courses-section" style="flex: 1; display: flex; align-items: center; background-color: var(--white);">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Our Courses</h2>
+        <p class="section-subtitle">Choose your class and start learning with live sessions, assignments, and study materials</p>
+      </div>
+
+      <div class="course-grid" style="max-width: 700px; margin: 0 auto;">
+        <!-- Class 9 Card -->
+        <div class="course-card card-orange" onclick="window.location.href='dashboard.html'">
+          <div class="card-bg" style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=400&auto=format&fit=crop');"></div>
+          <div class="card-overlay">
+            <h3 class="card-title">Class 9</h3>
+            <p style="font-size: 13px; margin-top: 6px; opacity: 0.9;">Foundation & Revision Pack</p>
+          </div>
+        </div>
+
+        <!-- Class 10 Card -->
+        <div class="course-card card-teal" onclick="window.location.href='dashboard.html'">
+          <div class="card-bg" style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=400&auto=format&fit=crop');"></div>
+          <div class="card-overlay">
+            <h3 class="card-title">Class 10</h3>
+            <p style="font-size: 13px; margin-top: 6px; opacity: 0.9;">Board Preparation Pack</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <p>&copy; 2026 Ask Classes. All Rights Reserved. Powered by Ask Classes eLearning Academy.</p>
+      </div>
+      <div>
+        <a href="index.html" style="margin-right: 15px; opacity: 0.8;">Privacy Policy</a>
+        <a href="index.html" style="opacity: 0.8;">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-bubble" id="chatBubble">
+      <h4>We're Online!</h4>
+      <p>How may I help you today?</p>
+    </div>
+    <button class="btn-chat-toggle" onclick="toggleChatPanel()">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Chat Widget Detail Panel -->
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-panel-header">
+      <h3>Ask Classes Live Chat</h3>
+      <button class="chat-panel-close" onclick="toggleChatPanel()">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg incoming">
+        Hello! How can we assist you with our school courses today?
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Write a message..." onkeydown="if(event.key === 'Enter') sendChatMessage()">
+      <button onclick="sendChatMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Vertical "Request Course" side tab -->
+  <div class="side-tab-request" onclick="openRequestCourse()">
+    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="transform: rotate(90deg);">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z"/>
+    </svg>
+    Request Course
+  </div>
+
+  <!-- Motivational Quote Modal -->
+  <div class="quote-modal-overlay" id="quoteModalOverlay">
+    <div class="quote-modal">
+      <div class="quote-modal-icon">✨</div>
+      <h3 style="margin-bottom: 10px; color: var(--primary-blue);">Inspiration for Your Journey</h3>
+      <div class="quote-modal-text" id="quoteModalText">"Loading quote..."</div>
+      <div class="quote-modal-author" id="quoteModalAuthor">— Author</div>
+      <button class="btn-modal-close" onclick="closeQuoteModal()">Continue to Register</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

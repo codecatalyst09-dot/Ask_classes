@@ -157,6 +157,7 @@ const upload = multer({ storage });
 app.use('/uploads', express.static(uploadsDir));
 
 // Serve static frontend files
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname)));
 
 // JWT Authentication Helpers
@@ -891,10 +892,13 @@ app.post('/api/tunnel/stop', async (req, res) => {
 
 // Fallback for non-API routes (when running standalone)
 app.get('*', (req, res) => {
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ success: false, message: 'API endpoint not found' });
+  if (req.path.startsWith('/api') || isServerless) {
+    return res.status(404).json({ success: false, message: 'Endpoint not found' });
   }
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const indexPath = fs.existsSync(path.join(__dirname, 'public', 'index.html'))
+    ? path.join(__dirname, 'public', 'index.html')
+    : path.join(__dirname, 'index.html');
+  res.sendFile(indexPath);
 });
 
 // Start Server and Initialize DB

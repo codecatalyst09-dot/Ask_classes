@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Ask Classes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo-link">
+        <img src="assets/images/ask_logo_circular.png" alt="Ask Classes Logo" class="logo-image">
+        <div class="logo-text">
+          <span class="logo-name">Ask Classes</span>
+          <span class="logo-tagline">Raising Excellence</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html">Ask Classes</a></li>
+          <li class="nav-item"><a href="courses.html">Courses</a></li>
+          <li class="nav-item"><a href="#" onclick="handleSignOut(event)">Signout</a></li>
+          <li>
+            <button class="btn-nav-action btn-dashboard" style="background-color:#0284c7;" onclick="window.location.href='dashboard.html'">View Student Dashboard</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Blue Banner -->
+  <section class="dashboard-banner" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+    <div class="dashboard-banner-container">
+      <div class="student-profile">
+        <div class="student-avatar-container" style="background-color: #38bdf8;">
+          <svg class="student-avatar-svg" viewBox="0 0 24 24" fill="currentColor" style="color: var(--white);">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="student-details">
+          <h1 style="color:#38bdf8;">Admin Portal</h1>
+          <p style="color:var(--text-muted); font-size:14px; margin-top:5px;">Manage student enrollments, live classes, assignments, and study materials</p>
+        </div>
+      </div>
+      
+      <div class="student-stats" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+        <div class="stat-card" style="background: #1e293b; border-color: #334155; color: var(--white);">
+          <div class="stat-info">
+            <h4 style="color: #94a3b8;">Students</h4>
+            <div id="admin-stat-students" style="font-size: 20px; font-weight:700; color: #a855f7; margin-top:8px;">0</div>
+          </div>
+        </div>
+        <div class="stat-card" style="background: #1e293b; border-color: #334155; color: var(--white);">
+          <div class="stat-info">
+            <h4 style="color: #94a3b8;">Assignments</h4>
+            <div id="admin-stat-assignments" style="font-size: 20px; font-weight:700; color: #38bdf8; margin-top:8px;">0</div>
+          </div>
+        </div>
+        <div class="stat-card" style="background: #1e293b; border-color: #334155; color: var(--white);">
+          <div class="stat-info">
+            <h4 style="color: #94a3b8;">Scheduled Classes</h4>
+            <div id="admin-stat-schedule" style="font-size: 20px; font-weight:700; color: #4caf50; margin-top:8px;">0</div>
+          </div>
+        </div>
+        <div class="stat-card" style="background: #1e293b; border-color: #334155; color: var(--white);">
+          <div class="stat-info">
+            <h4 style="color: #94a3b8;">Study Materials</h4>
+            <div id="admin-stat-materials" style="font-size: 20px; font-weight:700; color: #f59e0b; margin-top:8px;">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Worldwide Student Access & Sharing Hub -->
+  <section style="max-width: 1200px; margin: 20px auto 0 auto; padding: 0 20px;">
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 12px; padding: 24px; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2); border: 1px solid #334155;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid #334155; padding-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="background: #2563eb; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            🌐
+          </div>
+          <div>
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0; color: #ffffff;">Worldwide Student Access Hub</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin: 2px 0 0 0;">Anyone anywhere can join live classes on 4G, 5G, or any Wi-Fi — zero network restrictions.</p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span id="tunnel-status-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #059669;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #34d399; display: inline-block;"></span>
+            Worldwide Gateway Active
+          </span>
+          <button onclick="refreshGlobalTunnel()" style="background: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;" title="Regenerate tunnel link">
+            🔄 Refresh Link
+          </button>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+        <!-- Card 1: Global Link (For anyone outside the home) -->
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 8px; padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 13px; font-weight: 600; color: #38bdf8;">🌐 Worldwide Public Link (Share with Students)</span>
+            <span style="font-size: 11px; background: #0284c7; color: white; padding: 2px 8px; border-radius: 4px;">4G / 5G / Any Wi-Fi</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="admin-global-url" readonly value="Connecting global gateway..." style="flex: 1; background: #0f172a; border: 1px solid #334155; color: #38bdf8; font-weight: 600; font-family: monospace; padding: 8px 12px; border-radius: 6px; font-size: 13px;">
+            <button onclick="copyGlobalInviteLink()" style="background: #0284c7; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;">
+              📋 Copy Link
+            </button>
+            <button onclick="shareToWhatsApp()" style="background: #25d366; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;">
+              💬 WhatsApp
+            </button>
+          </div>
+          <div id="admin-tunnel-hint" style="font-size: 11px; color: #94a3b8; margin-top: 8px; line-height: 1.4;">
+            💡 Students anywhere in the world can open this link to register and join live classes. If prompted for password on Localtunnel, enter your Public IP: <strong id="admin-tunnel-ip" style="color: #f59e0b;">...</strong>
+          </div>
+        </div>
+
+        <!-- Card 2: Local WiFi Link (For devices in same room/home) -->
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 8px; padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 13px; font-weight: 600; color: #a78bfa;">📱 Local WiFi Link (Same Router Only)</span>
+            <span style="font-size: 11px; background: #6d28d9; color: white; padding: 2px 8px; border-radius: 4px;">Local LAN</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="admin-local-url" readonly value="Detecting LAN IP..." style="flex: 1; background: #0f172a; border: 1px solid #334155; color: #a78bfa; font-weight: 600; font-family: monospace; padding: 8px 12px; border-radius: 6px; font-size: 13px;">
+            <button onclick="copyLocalLink()" style="background: #6d28d9; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;">
+              📋 Copy Link
+            </button>
+          </div>
+          <div style="font-size: 11px; color: #94a3b8; margin-top: 8px; line-height: 1.4;">
+            Use this address for testing on your phone or family devices connected to the same home Wi-Fi.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification Info -->
+  <section class="notification-banner">
+    <div class="notification-box" style="background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        💡 <strong>Tuition Access:</strong> Any student can register directly via the Worldwide Link, or you can pre-authorize them using the form below. Scheduled live classes are immediately available to all students worldwide.
+      </div>
+      <button onclick="resetSystemData()" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer;">Reset DB Data</button>
+    </div>
+  </section>
+
+  <!-- Main Layout -->
+  <main style="max-width: 1200px; margin: 30px auto; padding: 0 20px;">
+    
+    <div class="admin-grid">
+      <!-- LEFT COLUMN: Forms for adding stuff -->
+      <div>
+        
+        <!-- Form for Student Enrollment & Access Control -->
+        <div class="admin-card" style="border: 2px solid #38bdf8;">
+          <h2 class="panel-card-title" style="margin-bottom: 12px; color: #0284c7; display: flex; align-items: center; gap: 8px;">
+            🎓 Enroll & Authorize Student
+          </h2>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">
+            Only students added here will be permitted to sign in to the Student Dashboard.
+          </p>
+          <form id="form-admin-student" class="admin-form" onsubmit="addStudentHandler(event)">
+            <div class="admin-form-group">
+              <label for="student-name">Student Full Name</label>
+              <input type="text" id="student-name" placeholder="e.g. Rahul Sharma" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="student-email">Student Email Address (Login ID)</label>
+              <input type="email" id="student-email" placeholder="e.g. rahul@gmail.com" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="student-pass">Set Student Password</label>
+              <input type="text" id="student-pass" placeholder="e.g. Rahul@2026" required value="AskClass@123">
+            </div>
+            <div class="admin-form-group">
+              <label for="student-course">Assign Academic Class</label>
+              <select id="student-course" class="admin-course-select"></select>
+            </div>
+            <div class="admin-form-group">
+              <label for="student-phone">Contact / WhatsApp Number</label>
+              <input type="tel" id="student-phone" placeholder="e.g. +91 9876543210">
+            </div>
+            <button type="submit" class="admin-btn" style="background-color: #0284c7;">+ Add & Authorize Student</button>
+            <button type="button" class="admin-btn" id="btn-cancel-student-edit" style="display:none; margin-top:8px; background:#64748b;" onclick="cancelStudentEdit()">Cancel Edit</button>
+          </form>
+        </div>
+        
+        <!-- Tab Form for Assignments -->
+        <div class="admin-card">
+          <h2 class="panel-card-title" style="margin-bottom: 20px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+            📝 Add Assignment
+          </h2>
+          <form id="form-admin-assignment" class="admin-form">
+            <div class="admin-form-group">
+              <label for="assign-course">Course Name</label>
+              <select id="assign-course" class="admin-course-select"></select>
+            </div>
+            <div class="admin-form-group">
+              <label for="assign-title">Assignment Title</label>
+              <input type="text" id="assign-title" placeholder="e.g. Worksheet - Polynomials Part 1" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="assign-desc">Description</label>
+              <textarea id="assign-desc" rows="3" placeholder="Enter assignment instructions..." required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label for="assign-date">Due Date</label>
+              <input type="date" id="assign-date" required>
+            </div>
+            <button type="submit" class="admin-btn admin-btn-accent">Publish Assignment</button>
+            <button type="button" class="admin-btn" style="margin-top:8px; background:#64748b;" onclick="cancelAdminEdit('assignments')">Cancel Edit</button>
+          </form>
+        </div>
+
+        <!-- Form for Live Class Scheduling -->
+        <div class="admin-card">
+          <h2 class="panel-card-title" style="margin-bottom: 20px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+            📅 Schedule Class Time
+          </h2>
+          <form id="form-admin-schedule" class="admin-form">
+            <div class="admin-form-group">
+              <label for="sched-course">Course Name</label>
+              <select id="sched-course" class="admin-course-select"></select>
+            </div>
+            <div class="admin-form-group">
+              <label for="sched-title">Class Topic/Title</label>
+              <input type="text" id="sched-title" placeholder="e.g. Geometry live practice & doubt clearing" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="sched-instructor">Instructor Name</label>
+              <input type="text" id="sched-instructor" value="Dr. Rahul Sharma" placeholder="Instructor name" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="sched-date">Class Date</label>
+              <input type="date" id="sched-date" required>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div class="admin-form-group">
+                <label for="sched-time-start">Start Time</label>
+                <input type="time" id="sched-time-start" value="17:00" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="sched-time-end">End Time</label>
+                <input type="time" id="sched-time-end" value="18:30" required>
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label for="sched-status">Status</label>
+              <select id="sched-status">
+                <option value="upcoming">Upcoming</option>
+                <option value="live">Live Now</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label for="sched-link">🔗 Meeting / Live Class Link (Google Meet, Zoom, YouTube, Teams)</label>
+              <input type="url" id="sched-link" placeholder="https://meet.google.com/abc-defg-hij" value="https://meet.google.com/ask-live-class" required>
+            </div>
+            <button type="submit" class="admin-btn">Schedule Class</button>
+            <button type="button" class="admin-btn" style="margin-top:8px; background:#64748b;" onclick="cancelAdminEdit('schedule')">Cancel Edit</button>
+          </form>
+        </div>
+
+        <!-- Form for Study Materials Upload -->
+        <div class="admin-card">
+          <h2 class="panel-card-title" style="margin-bottom: 20px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+            📚 Upload Study Notes / Materials
+          </h2>
+          <form id="form-admin-material" class="admin-form">
+            <div class="admin-form-group">
+              <label for="mat-course">Course Name</label>
+              <select id="mat-course" class="admin-course-select"></select>
+            </div>
+            <div class="admin-form-group">
+              <label for="mat-title">Document Title</label>
+              <input type="text" id="mat-title" placeholder="e.g. Chapter 2 Force Formula Sheet" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="mat-desc">Description</label>
+              <textarea id="mat-desc" rows="2" placeholder="Brief details about the study material..." required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label for="mat-file">Upload File (Mock)</label>
+              <input type="file" id="mat-file" style="border: 1px dashed var(--border-color); padding: 10px;">
+            </div>
+            <button type="submit" class="admin-btn admin-btn-accent">Upload Notes</button>
+            <button type="button" class="admin-btn" style="margin-top:8px; background:#64748b;" onclick="cancelAdminEdit('materials')">Cancel Edit</button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Lists and removal management -->
+      <div>
+        
+        <!-- Authorized Students Roster -->
+        <div class="admin-card" style="border: 2px solid #38bdf8;">
+          <h3 class="panel-card-title" style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; color: #0284c7; display:flex; justify-content:space-between; align-items:center;">
+            <span>🎓 Enrolled Students Roster</span>
+            <span style="font-size:12px; font-weight:normal; color:var(--text-muted);">Whitelist Active</span>
+          </h3>
+          <div class="admin-list-container" id="admin-students-list">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+
+        <!-- Live Schedules List -->
+        <div class="admin-card">
+          <h3 class="panel-card-title" style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            📅 Scheduled Classes Manager
+          </h3>
+          <div class="admin-list-container" id="admin-schedule-list">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+
+        <!-- Assignments List -->
+        <div class="admin-card">
+          <h3 class="panel-card-title" style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            📝 Published Assignments Manager
+          </h3>
+          <div class="admin-list-container" id="admin-assignments-list">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+
+        <!-- Study Materials List -->
+        <div class="admin-card">
+          <h3 class="panel-card-title" style="margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            📚 Uploaded Notes Manager
+          </h3>
+          <div class="admin-list-container" id="admin-materials-list">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <p>&copy; 2026 Ask Classes. All Rights Reserved. Powered by Ask Classes eLearning Academy.</p>
+      </div>
+      <div>
+        <a href="index.html" style="margin-right: 15px; opacity: 0.8;">Privacy Policy</a>
+        <a href="index.html" style="opacity: 0.8;">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

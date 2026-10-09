@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ask Classes - Registration and Sign In. Join the e-learning academy for Class 10th, 9th, and 8th.">
+  <title>Register & Sign In | Ask Classes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Header Section -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo-link">
+        <img src="assets/images/ask_logo_circular.png" alt="Ask Classes Logo" class="logo-image">
+        <div class="logo-text">
+          <span class="logo-name">Ask Classes</span>
+          <span class="logo-tagline">Raising Excellence</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html">Ask Classes</a></li>
+          <li class="nav-item"><a href="courses.html">Courses</a></li>
+          <li class="nav-item"><a href="#support" onclick="alert('Support is available via chat widget in bottom right!')">Support</a></li>
+          <li>
+            <button class="btn-nav-action btn-register" onclick="toggleForm('register')">Register Now</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Worldwide Access Notification Banner -->
+  <div style="background: linear-gradient(90deg, #1e3a8a, #0284c7); color: #ffffff; padding: 8px 20px; font-size: 13px; font-weight: 500; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+    <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">🌐 Global Online Access</span>
+    <span>Join Live Sessions from ANYWHERE: Works on 4G/5G mobile, any home Wi-Fi & any device worldwide!</span>
+  </div>
+
+  <!-- Split Registration & Hero Section -->
+  <section class="hero-split-container">
+    <div class="hero-split-info">
+      <span class="hero-tag">Ask Classes - E-Learning Academy</span>
+      <h1 class="hero-title">Excellence is not an act with us but a habit</h1>
+      <p style="font-size: 16px; margin-bottom: 30px; opacity: 0.9;">
+        Access online live classes, assignments, and study materials for Class 9 and Class 10 from anywhere in the world.
+      </p>
+      <div style="display: flex; gap: 15px;">
+        <button class="btn-hero btn-learn-more" onclick="window.location.href='courses.html'" style="padding: 12px 28px;">Explore Courses</button>
+      </div>
+    </div>
+
+    <!-- Registration/Login Card -->
+    <div class="auth-card-container">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <div id="tab-register" class="auth-tab active" onclick="toggleForm('register')">Register</div>
+          <div id="tab-login" class="auth-tab" onclick="toggleForm('login')">Sign In</div>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin: 10px 0 15px 0; text-align: center;">
+          Instant Enrollment — Create your account to access live sessions immediately.
+        </p>
+
+        <!-- Registration Form (Active by default) -->
+        <form id="form-register-page" onsubmit="handleRegistration(event)">
+          <div class="form-group">
+            <label for="reg-fullname">Full Name</label>
+            <input type="text" id="reg-fullname" placeholder="Enter your full name" required value="Anushka Singh">
+          </div>
+          <div class="form-group">
+            <label for="reg-email-address">Email Address</label>
+            <input type="email" id="reg-email-address" placeholder="Enter email address" required value="anushka@example.com">
+          </div>
+          <div class="form-group">
+            <label for="reg-pass">Choose Password</label>
+            <input type="password" id="reg-pass" placeholder="Create password" required value="password123">
+          </div>
+          <div class="form-group">
+            <label for="reg-class">Select Your Course</label>
+            <select id="reg-class" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--border-radius); outline: none;">
+              <option value="c9">Class 9</option>
+              <option value="c10">Class 10</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-form" style="margin-top: 10px;">Register & Continue</button>
+        </form>
+
+        <!-- Sign In Form (Hidden by default) -->
+        <form id="form-login-page" style="display: none;" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-user">Email or Username</label>
+            <input type="text" id="login-user" placeholder="student@askclasses.com or admin" required value="student@askclasses.com">
+          </div>
+          <div class="form-group">
+            <label for="login-pass">Password</label>
+            <input type="password" id="login-pass" placeholder="Password" required value="student123">
+          </div>
+          <button type="submit" class="btn-form" style="margin-top: 10px;">Sign In</button>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 12px; text-align: center; border-top: 1px dashed var(--border-color); padding-top: 8px; line-height: 1.5;">
+            🎓 <strong>Student:</strong> <code>student@askclasses.com</code> / <code>student123</code><br>
+            🔑 <strong>Admin:</strong> <code>admin@askclasses.com</code> (or <code>admin</code>) / <code>admin123</code>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer" style="margin-top: auto;">
+    <div class="footer-content">
+      <div>
+        <p>&copy; 2026 Ask Classes. All Rights Reserved. Powered by Ask Classes eLearning Academy.</p>
+      </div>
+      <div>
+        <a href="courses.html" style="margin-right: 15px; opacity: 0.8;">Privacy Policy</a>
+        <a href="courses.html" style="opacity: 0.8;">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-bubble" id="chatBubble">
+      <h4>We're Online!</h4>
+      <p>How may I help you today?</p>
+    </div>
+    <button class="btn-chat-toggle" onclick="toggleChatPanel()">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-panel-header">
+      <h3>Ask Classes Live Chat</h3>
+      <button class="chat-panel-close" onclick="toggleChatPanel()">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg incoming">
+        Hello! How can we assist you with our school courses today?
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Write a message..." onkeydown="if(event.key === 'Enter') sendChatMessage()">
+      <button onclick="sendChatMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Motivational Quote Modal -->
+  <div class="quote-modal-overlay" id="quoteModalOverlay">
+    <div class="quote-modal">
+      <div class="quote-modal-icon">✨</div>
+      <h3 style="margin-bottom: 10px; color: var(--primary-blue);">Inspiration for Your Journey</h3>
+      <div class="quote-modal-text" id="quoteModalText">"Loading quote..."</div>
+      <div class="quote-modal-author" id="quoteModalAuthor">— Author</div>
+      <button class="btn-modal-close" onclick="closeQuoteModal()">Continue to Register</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
